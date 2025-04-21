@@ -4,8 +4,12 @@ import math
 from game import Connect4
 from algorithms import *
 from constants import *
-from tree import * 
+# from tree import * 
 import threading
+from tree3 import *
+from visulizer import *
+
+import tkinter as tk
 
 
 def start_game(selected_mode,depth,tree_visualizer):
@@ -13,9 +17,9 @@ def start_game(selected_mode,depth,tree_visualizer):
     width = COLUMN_COUNT * SQUARESIZE
     height = (ROW_COUNT + 1) * SQUARESIZE
     size = (width, height)
-    if tree_visualizer:
-        create_window((1200, 1000))
-        # threading.Thread(target=create_window, args=((1200, 1000)), daemon=True).start()
+    # if tree_visualizer:
+    #     create_window((1200, 1000))
+    #     # threading.Thread(target=create_window, args=((1200, 1000)), daemon=True).start()
         
 
     game = Connect4()
@@ -102,20 +106,82 @@ def start_game(selected_mode,depth,tree_visualizer):
                 break
     
                             
+# def ai_move(selected_mode, game, depth, visualizer):
+#     if selected_mode == "Minimax with Pruning":
+#         best_score, best_move = minimax_pruning(game, depth, True)
+#         game.add_piece(best_move, AI_PLAYER)
+#     elif selected_mode == "Minimax without Pruning":
+#         min_score, best_move = minimax(game, depth, True)
+#         game.add_piece(best_move, AI_PLAYER)
+#     else: 
+#         expected_score, best_move = expectiminimax(game, depth, True)
+#         game.add_piece(best_move, AI_PLAYER)
+
+#     if visualizer:
+#         from tree import visualize_tree
+#         visualize_tree(game, depth=depth)
+
+
+
+# def ai_move(selected_mode, game, depth, visualizer):
+#     if selected_mode == "Minimax with Pruning":
+#         tree_root,best_move,_ = minimax_pruning_tree(game, depth, maximizing_player=True)
+#     elif selected_mode == "Minimax without Pruning":
+#         score, root_node = minimax_with_tree(game, depth=3)
+#         best_child = root_node.get_best_child()
+#         best_move = best_child.move
+#         root_node.print_tree()
+#         root_node.print_best_child()
+#         if visualizer:
+#             visualize_tree(root_node)
+        
+        
+        
+        
+#     else:  
+#         tree_root,best_move,_ = expectiminimax_tree(game, depth, maximizing_player=True)
+
+    
+    
+#     game.add_piece(best_move, AI_PLAYER)
+
+
+
+
+def visualize_tree(root_node):
+    """Create a Tkinter window in a thread and visualize the tree."""
+
+    def start_tk():
+        root = tk.Tk()
+        visualizer = TreeVisualizer(root, root_node=root_node)  # Pass the real root node
+        visualizer.calculate_positions(visualizer.root)  # First calculate positions
+        visualizer.draw_static_tree()  # Then draw the static tree
+        root.mainloop()
+
+    tkinter_thread = threading.Thread(target=start_tk)
+    tkinter_thread.daemon = True
+    tkinter_thread.start()
+
+
+
 def ai_move(selected_mode, game, depth, visualizer):
     if selected_mode == "Minimax with Pruning":
-        best_score, best_move = minimax_pruning(game, depth, True)
-        game.add_piece(best_move, AI_PLAYER)
+        score, root_node = minimax_pruning_tree(game, depth, maximizing_player=True)
     elif selected_mode == "Minimax without Pruning":
-        min_score, best_move = minimax(game, depth, True)
-        game.add_piece(best_move, AI_PLAYER)
-    else: 
-        expected_score, best_move = expectiminimax(game, depth, True)
-        game.add_piece(best_move, AI_PLAYER)
+        score, root_node = minimax_with_tree(game, depth)
+    else:  
+        score, root_node = expectiminimax_tree(game, depth)
 
+    best_child = root_node.get_best_child()
+    best_move = best_child.move
+    root_node.print_tree()
+    root_node.print_best_child()
     if visualizer:
-        from tree import visualize_tree
-        visualize_tree(game, depth=depth)
+        visualize_tree(root_node)
+    game.add_piece(best_move, AI_PLAYER)
+
+
+    
 
 
 

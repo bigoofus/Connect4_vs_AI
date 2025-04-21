@@ -2,7 +2,7 @@ from game import Connect4
 from constants import AI_PLAYER , PLAYER
 from heuristic import compute_heuristic_score
 
-from tree3 import Node  # reuse your TreeNode class!
+from tree import Node
 
 def minimax(game , depth , maximizing_player = True):
 

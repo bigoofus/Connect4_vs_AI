@@ -6,7 +6,7 @@ from algorithms import *
 from constants import *
 # from tree import * 
 import threading
-from tree3 import *
+from tree import *
 from visulizer import *
 
 import tkinter as tk

@@ -36,7 +36,7 @@ def compute_heuristic_score(game):
 
     
     score += computer_open_threes * 5000
-    score -= human_open_threes * 100000  # Higher weight for blocking (Defensive Plays)
+    score -= human_open_threes * 10000  # Higher weight for blocking (Defensive Plays)
 
     score += computer_open_twos * 100
     score -= human_open_twos * 200

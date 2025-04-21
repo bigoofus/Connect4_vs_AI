@@ -72,7 +72,10 @@ def start_game(selected_mode,depth,tree_visualizer):
                     col = int(math.floor(posx / SQUARESIZE))
 
                     if game.is_valid_location(col):
-                        game.add_piece(col, PLAYER)
+                        if selected_mode == "Expectiminimax":
+                            game.add_piece_exp(col, PLAYER)
+                        else:
+                            game.add_piece(col, PLAYER)
                     turn = AI_PLAYER
                     print(game)
                     draw_board(game)

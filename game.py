@@ -96,6 +96,9 @@ class Connect4:
         player_connections = self.count_connect4s(PLAYER)
         comp_connections = self.count_connect4s(AI_PLAYER)
 
+        print("\nPlayer 4s: " + str(player_connections))
+        print("Computer 4s: " + str(comp_connections))
+
         if(player_connections > comp_connections):
             print('\nPlayer Wins!!')
             self.winner = 1

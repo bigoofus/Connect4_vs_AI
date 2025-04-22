@@ -152,7 +152,7 @@ def start_game(selected_mode,depth,tree_visualizer):
 
 
 def visualize_tree(root_node):
-    """Create a Tkinter window in a thread and visualize the tree."""
+
 
     def start_tk():
         root = tk.Tk()
@@ -177,11 +177,14 @@ def ai_move(selected_mode, game, depth, visualizer):
 
     best_child = root_node.get_best_child()
     best_move = best_child.move
-    root_node.print_tree()
+    # root_node.print_tree()
     root_node.print_best_child()
     if visualizer:
         visualize_tree(root_node)
-    game.add_piece(best_move, AI_PLAYER)
+    if selected_mode == "Expectiminimax":
+        game.add_piece_exp(best_move, AI_PLAYER)
+    else:
+        game.add_piece(best_move, AI_PLAYER)
 
 
     
